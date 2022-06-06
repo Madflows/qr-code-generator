@@ -3,36 +3,43 @@ import { useState } from "react";
 import Output from "./components/Output";
 
 import toast from "react-hot-toast";
+import Footer from "./components/Footer";
 
 function App() {
   const [url, setUrl] = useState(null);
   const [qr, setQr] = useState("");
   const generateQR = () => {
-    QRCode.toDataURL(url, {
-			width: 300,
-			margin: 2,
-			color: {
-				dark: '#335383FF',
-				light: '#EEEEEEFF'
-			}
-		}, (err, url) => {
-			if (err) {
-        toast.error("Unable to generate!")
-        return console.error(err)
-      }
+    QRCode.toDataURL(
+      url,
+      {
+        width: 300,
+        margin: 2,
+        color: {
+          dark: "#335383FF",
+          light: "#EEEEEEFF",
+        },
+      },
+      (err, url) => {
+        if (err) {
+          toast.error("Unable to generate!");
+          return console.error(err);
+        }
 
-			console.log(url)
-      toast.success("Here's your QR!");
-			setQr(url)
-		})
+        console.log(url);
+        toast.success("Here's your QR!");
+        setQr(url);
+      }
+    );
   };
   return (
     <div className="h-screen bg-slate-800 text-slate-200">
       <h2 className="text-2xl md:text-3xl text-white text-center py-4">
         Qr Code Generator
       </h2>
-      <div className="flex gap-2 py-3 px-4 w-full max-w-sm mx-auto 
-      flex-col items-center justify-center">
+      <div
+        className="flex gap-2 py-3 px-4 w-full max-w-sm mx-auto 
+      flex-col items-center justify-center"
+      >
         <input
           type="url"
           value={url}
@@ -51,6 +58,10 @@ function App() {
         </button>
       </div>
       <Output qr={qr} />
+      <div className="fixed px-4 py-3 bg-slate-900 w-full flex 
+      items-center justify-center bottom-0 left-0">
+        <Footer />
+      </div>
     </div>
   );
 }
